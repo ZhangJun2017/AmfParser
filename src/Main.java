@@ -8,16 +8,16 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("AmfParser Running!");
         System.out.println("By ZhangJun");
-        System.out.println("Development Version-0.125.4");
+        System.out.println("Development Version-0.125.6");
         AMFConnection amfConnection = new AMFConnection();
         try{
             String url="http://211.141.133.22:8081/SchoolCenter/messagebroker/amf";
             amfConnection.connect(url);
-            Object object = amfConnection.call("multiExamServiceNew.getAllStudentMultiExam", 19600, "0120151513", "");
-            System.out.println(object);
+            Object result = amfConnection.call("multiExamServiceNew.getAllStudentMultiExam", 19600, "0120151513", "");
+            System.out.println(result);
             //ArrayCollection arrayCollection = (ArrayCollection)object;
             //System.out.println(arrayCollection);
-            ASObject asObject = (ASObject) object;
+            ASObject asObject = (ASObject) result;
             /*System.out.println(asObject);
             System.out.println("=====================================");
             ArrayList array = (ArrayList)object;
@@ -35,32 +35,19 @@ public class Main {
             test.put(3,"t3");
             System.out.println(test);
             System.out.println(test.get(2));*/
-            System.out.println(asObject);
-            java.util.ArrayList tree = (java.util.ArrayList) asObject.get("source");
-
+            //System.out.println(asObject);
+            java.util.ArrayList rootMap = (java.util.ArrayList) asObject.get("source");
+            //从有3个[]的body里开始解析
             //System.out.println(tree);
-
-            System.out.println("解析到的数据tree为：");
-            System.out.println(tree);
-            ASObject tree1 = (ASObject) tree.get(0);
-
-            System.out.println("解析到的数据tree1为：");
-            System.out.println(tree1);
-            Object id = tree1.get("studentId");
+            System.out.println("解析到的数据map为：");
+            System.out.println(rootMap);
+            ASObject examMap = (ASObject) rootMap.get(0);
+            //[0]永远是最新一次考试
+            System.out.println("解析到的数据exam_map为：");
+            System.out.println(examMap);
+            Object id = examMap.get("studentId");
             System.out.println("解析到的学号为：");
             System.out.println(id);
-            if ("" == "[]") {
-                System.out.println("数据错误");
-            } else {
-                //System.out.println(result.equals(result));
-                System.out.println("");
-                System.out.println("解析到的数据tree为：");
-                System.out.println(tree);
-                System.out.println("解析到的数据tree1为：");
-                System.out.println(tree1.toString());
-                System.out.println("解析到的学校为：");
-                System.out.println(id);
-            }
         } catch (ClientStatusException e) {
             e.printStackTrace();
         } catch (ServerStatusException e) {
