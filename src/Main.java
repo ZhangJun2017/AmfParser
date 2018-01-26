@@ -110,5 +110,5 @@ class values {
     String url = "http://211.141.133.22:8081/SchoolCenter/messagebroker/amf";
     String command = "multiExamServiceNew.getAllStudentMultiExam";
     int examId = 0;
-    String studentName = "Null";
+    String studentName = "Null1";
 }
