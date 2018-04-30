@@ -49,4 +49,21 @@ public class Tools {
         }
         return 0;
     }
+
+    public String fixNumber(String num) {
+        if (num.indexOf(".") > 0) {
+            num = num.replaceAll("0+?$", "");//去掉后面无用的零
+            num = num.replaceAll("[.]$", "");//如小数点后面全是零则去掉小数点
+        }
+        return num;
+    }
+
+    public String fixNumber(Object num) {
+        String tmp = num.toString();
+        if (tmp.indexOf(".") > 0) {
+            tmp = tmp.replaceAll("0+?$", "");//去掉后面无用的零
+            tmp = tmp.replaceAll("[.]$", "");//如小数点后面全是零则去掉小数点
+        }
+        return tmp;
+    }
 }
