@@ -12,6 +12,11 @@ public class Main {
         System.out.println("AmfParser Running!");
         System.out.println("By ZhangJun");
         System.out.println("Development Version-" + values.version);
+        if (args.length == 0) {
+            System.out.println("没有指定学号，使用默认学号。");
+        } else {
+            values.studentID = args[0];
+        }
         AMFConnection amfConnection = new AMFConnection();
         try {
             amfConnection.connect(values.url);
@@ -118,7 +123,7 @@ public class Main {
 }
 
 class values {
-    String version = "0.3.5-school_build";
+    String version = "0.3.6-school_build";
     String studentID = "0120151513";
     String url = "http://211.141.133.22:8081/SchoolCenter/messagebroker/amf";
     String command = "multiExamServiceNew.getAllStudentMultiExam";
