@@ -99,7 +99,8 @@ public class Main {
                 values.studentName = (String) eachType.get("studentName");
                 String className = tools.getNameById(values.examId, classId, asObject);
                 System.out.println("id:" + tools.fixNumber(eachType.get("seId")) + ",name:" + className + ",score:" + tools.fixNumber(eachType.get("essScore")) + ",班排," + tools.fixNumber(eachType.get("essClassOrder")) + ",年排," + tools.fixNumber(eachType.get("essGradeOrder")));
-            }
+				values.fullScore = Integer.valueOf(tools.fixNumber(eachType.get("essScore"))) + values.fullScore;
+			}
             System.out.println("解析到的姓名为：" + values.studentName);
 
             //[MARK:6][DELETED]
@@ -110,6 +111,7 @@ public class Main {
             System.out.println(multiExamMap.get("meName"));
             System.out.println("班排：" + tools.fixNumber(meStudentScore.get("messClassOrder")));
             System.out.println("年排：" + tools.fixNumber(meStudentScore.get("messGradeOrder")));
+			System.out.println("总分：" + values.fullScore);
 
         } catch (ClientStatusException e) {
             e.printStackTrace();
@@ -123,10 +125,11 @@ public class Main {
 }
 
 class values {
-    String version = "0.3.6-school_build";
+    String version = "0.3.7-school_build";
     String studentID = "0120151513";
     String url = "http://211.141.133.22:8081/SchoolCenter/messagebroker/amf";
     String command = "multiExamServiceNew.getAllStudentMultiExam";
     int examId = 0;
     String studentName = "Null";
+	int fullScore = 0;
 }
