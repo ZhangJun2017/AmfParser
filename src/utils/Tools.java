@@ -46,7 +46,7 @@ public class Tools {
         return tmp;
     }
 
-    public void query(ASObject rootMap) {
+    public void query(java.util.ArrayList rootMap, ASObject asObject) {
         for (int i = 0; i < rootMap.size(); i++) {
             //System.out.println("解析到的数据exam_map为：");
             //System.out.println(examMap);
@@ -55,27 +55,27 @@ public class Tools {
             ASObject multiExamMap = (ASObject) examMap.get("multiExam");
             //[MARK:3]
             //System.out.println("解析到的multiExam为：");
-            System.out.println(multiExamMap);
+            //System.out.println(multiExamMap);
             ASObject meStudentScore = (ASObject) examMap.get("meStudentScore");
             //System.out.println("解析到的meStudentScore为：");
-            System.out.println(meStudentScore);
+            //System.out.println(meStudentScore);
             //System.out.println("解析到的学号为：");
-            System.out.println(id);
+            //System.out.println(id);
             ASObject scoreMap = (ASObject) examMap.get("seStudentScoreList");
             //[MARK:4]
             //System.out.println("解析到的各科数据为：");
-            System.out.println(scoreMap);
+            //System.out.println(scoreMap);
             java.util.ArrayList eachTypeRoot = (java.util.ArrayList) scoreMap.get("source");
             //root类map一定要用array list解析
             //[MARK:5]
 
             // System.out.println("解析到的各科root数据为：");
-            System.out.println(eachTypeRoot);
+            //System.out.println(eachTypeRoot);
             int subjectLength = eachTypeRoot.size();
             //java.util.ArrayList的size()相当于数组的length参数
             System.out.println("共" + subjectLength + "科");
 
-            for (int i = 0; i < subjectLength; i++) {
+            for (int o = 0; o < subjectLength; o++) {
                 //System.out.println(eachTypeRoot.get(i));
                 /*HashMap hashMap = new HashMap();
                 hashMap.put(i,eachTypeRoot.get(i));
@@ -90,8 +90,8 @@ public class Tools {
                     int name = (new Double(d_name)).intValue();
                  */
                 values.studentName = (String) eachType.get("studentName");
-                //String className = tools.getNameById(values.examId, classId, asObject);
-                //System.out.println("id:" + tools.fixNumber(eachType.get("seId")) + ",name:" + className + ",score:" + tools.fixNumber(eachType.get("essScore")) + ",班排," + tools.fixNumber(eachType.get("essClassOrder")) + ",年排," + tools.fixNumber(eachType.get("essGradeOrder")));
+                String className = tools.getNameById(values.examId, classId, asObject);
+                System.out.println("id:" + tools.fixNumber(eachType.get("seId")) + ",name:" + className + ",score:" + tools.fixNumber(eachType.get("essScore")) + ",班排," + tools.fixNumber(eachType.get("essClassOrder")) + ",年排," + tools.fixNumber(eachType.get("essGradeOrder")));
                 values.fullScore = Double.valueOf(tools.fixNumber(eachType.get("essScore"))) + values.fullScore;
             }
             System.out.println("解析到的姓名为：" + values.studentName);

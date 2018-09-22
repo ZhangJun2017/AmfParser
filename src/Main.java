@@ -10,6 +10,7 @@ public class Main {
     public static void main(String[] args) {
 
         values values = new values();
+        Tools tools = new Tools();
         System.out.println("AmfParser Running!");
         System.out.println("By ZhangJun");
         System.out.println("Development Version-" + values.version);
@@ -55,66 +56,7 @@ public class Main {
 
             System.out.println("解析到的数据map为：");
             System.out.println(rootMap);
-
-            ASObject examMap = (ASObject) rootMap.get(values.examId);
-            //[MARK:2]
-            //[0]永远是最新一次考试
-            System.out.println("解析到的数据exam_map为：");
-            System.out.println(examMap);
-            Object id = examMap.get("studentId");
-            ASObject multiExamMap = (ASObject) examMap.get("multiExam");
-            //[MARK:3]
-            System.out.println("解析到的multiExam为：");
-            System.out.println(multiExamMap);
-            ASObject meStudentScore = (ASObject) examMap.get("meStudentScore");
-            System.out.println("解析到的meStudentScore为：");
-            System.out.println(meStudentScore);
-            System.out.println("解析到的学号为：");
-            System.out.println(id);
-            ASObject scoreMap = (ASObject) examMap.get("seStudentScoreList");
-            //[MARK:4]
-            System.out.println("解析到的各科数据为：");
-            System.out.println(scoreMap);
-            java.util.ArrayList eachTypeRoot = (java.util.ArrayList) scoreMap.get("source");
-            //root类map一定要用array list解析
-            //[MARK:5]
-
-            System.out.println("解析到的各科root数据为：");
-            System.out.println(eachTypeRoot);
-            int subjectLength = eachTypeRoot.size();
-            //java.util.ArrayList的size()相当于数组的length参数
-            System.out.println("共" + subjectLength + "科");
-
-            for (int i = 0; i < subjectLength; i++) {
-                //System.out.println(eachTypeRoot.get(i));
-                /*HashMap hashMap = new HashMap();
-                hashMap.put(i,eachTypeRoot.get(i));
-                System.out.println(hashMap);*/
-                Tools tools = new Tools();
-                ASObject eachType = (ASObject) eachTypeRoot.get(i);
-                double d_classId = (double) eachType.get("seId");
-                int classId = (new Double(d_classId)).intValue();
-                /*
-                double转int：
-                    double d_name = (double) asObject.get("sth.");
-                    int name = (new Double(d_name)).intValue();
-                 */
-                values.studentName = (String) eachType.get("studentName");
-                String className = tools.getNameById(values.examId, classId, asObject);
-                System.out.println("id:" + tools.fixNumber(eachType.get("seId")) + ",name:" + className + ",score:" + tools.fixNumber(eachType.get("essScore")) + ",班排," + tools.fixNumber(eachType.get("essClassOrder")) + ",年排," + tools.fixNumber(eachType.get("essGradeOrder")));
-                values.fullScore = Double.valueOf(tools.fixNumber(eachType.get("essScore"))) + values.fullScore;
-            }
-            System.out.println("解析到的姓名为：" + values.studentName);
-
-            //[MARK:6][DELETED]
-            //[MARK:7][DELETED]
-            //普通的值用object，print时直接print这个object就行了，文件夹要用asobject，还要用(asobject)强制转换。
-            Tools tools = new Tools();
-            System.out.println("考试情况：");
-            System.out.println(multiExamMap.get("meName"));
-            System.out.println("班排：" + tools.fixNumber(meStudentScore.get("messClassOrder")));
-            System.out.println("年排：" + tools.fixNumber(meStudentScore.get("messGradeOrder")));
-            System.out.println("总分：" + tools.fixNumber(values.fullScore));
+            tools.query(rootMap, asObject);
 
         } catch (ClientStatusException e) {
             e.printStackTrace();
