@@ -22,7 +22,7 @@ public class Main {
         AMFConnection amfConnection = new AMFConnection();
         try {
             amfConnection.connect(values.url);
-            Object result = amfConnection.call(values.command, 19600, values.studentID, "");
+            Object result = amfConnection.call(values.command, 19868, values.studentID, "");
             //拿数据
             System.out.println("解析数据：");
             System.out.println("====================");
