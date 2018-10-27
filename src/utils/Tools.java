@@ -1,9 +1,10 @@
 package utils;
 
 import com.weedong.flex.messaging.io.ASObject;
+import utils.values;
 
 public class Tools {
-    values values = new values();
+    utils.values values = new values();
 
     public String getNameById(int examId, int classId, ASObject asObject) {
         /**
