@@ -46,7 +46,7 @@ public class Tools {
         return tmp;
     }
 
-    public void query(java.util.ArrayList rootMap, ASObject asObject) {
+    public void query(java.util.ArrayList rootMap, ASObject asObject, values values) {
         java.util.ArrayList eachTypeRoot;
         for (int i = rootMap.size() - 1; i > -1; i--) {
             ASObject examMap = (ASObject) rootMap.get(i);

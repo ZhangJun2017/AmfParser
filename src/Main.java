@@ -40,7 +40,7 @@ public class Main {
                 /*System.out.println("解析到的数据map为：");
                 System.out.println(rootMap);
                 System.out.println("====================");*/
-                tools.query(rootMap, asObject);
+                tools.query(rootMap, asObject, values);
                 if (whileQuery == true) {
                     System.out.println();
                     System.out.print("Waiting for input... > ");
