@@ -1,4 +1,4 @@
-package utils;
+package sn.zhang.amfparser.utils;
 
 public class values {
     public String version = "0.6.0-gzzx_build";

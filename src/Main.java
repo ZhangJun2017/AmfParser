@@ -2,8 +2,8 @@ import com.weedong.flex.client.AMFConnection;
 import com.weedong.flex.client.ClientStatusException;
 import com.weedong.flex.client.ServerStatusException;
 import com.weedong.flex.messaging.io.ASObject;
-import utils.Tools;
-import utils.values;
+import sn.zhang.amfparser.utils.Tools;
+import sn.zhang.amfparser.utils.values;
 
 import java.util.Scanner;
 

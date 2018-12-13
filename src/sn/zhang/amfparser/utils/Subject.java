@@ -1,4 +1,4 @@
-package utils;
+package sn.zhang.amfparser.utils;
 
 import java.util.HashMap;
 

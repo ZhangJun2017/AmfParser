@@ -1,4 +1,4 @@
-package utils;
+package sn.zhang.amfparser.utils;
 
 import com.weedong.flex.messaging.io.ASObject;
 

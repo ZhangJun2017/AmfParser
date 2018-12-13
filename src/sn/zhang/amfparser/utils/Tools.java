@@ -1,10 +1,9 @@
-package utils;
+package sn.zhang.amfparser.utils;
 
 import com.weedong.flex.messaging.io.ASObject;
-import utils.values;
 
 public class Tools {
-    utils.values values = new values();
+    sn.zhang.amfparser.utils.values values = new values();
 
     public String getNameById(int examId, int classId, ASObject asObject) {
         /**
