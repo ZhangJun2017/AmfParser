@@ -38,4 +38,9 @@ public class Config {
     public String get(String key) {
         return this.configMap.get(key).toString();
     }
+
+    public void put(String key, String obj) {
+        this.configMap.put(key, obj);
+    }
+
 }
