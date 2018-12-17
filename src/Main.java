@@ -33,10 +33,10 @@ public class Main {
         System.out.print("Enter Class:");
         class_id = scanner.nextLine();
         prefix = "218" + class_id + "1";
-        System.out.print("Enter Total:");
-        total = scanner.nextLine();
-        ArrayList al = new ArrayList(100);
-        al.addAll(tools.createListByClass(Integer.valueOf(total), prefix));
+        //System.out.print("Enter Total:");
+        //total = scanner.nextLine();
+        ArrayList al = new ArrayList(60);
+        al.addAll(tools.createListByClass(prefix));
 
         for (int i = 1; i < al.size() + 1; i++) {
             AMFConnection amfConnection = new AMFConnection();
@@ -53,6 +53,7 @@ public class Main {
                 /*System.out.println("解析到的数据map为：");
                 System.out.println(rootMap);
                 System.out.println("====================");*/
+                values.studentID = al.get(i).toString();
                 tools.query(rootMap, asObject, values);
                 /*
                 if (whileQuery == true) {

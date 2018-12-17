@@ -84,10 +84,10 @@ public class Tools {
         System.out.println("====== " + values.studentName + " (" + values.studentID + ")");
     }
 
-    public ArrayList createListByClass(int total, String prefix) {
-        ArrayList al = new ArrayList(100);
+    public ArrayList createListByClass(String prefix) {
+        ArrayList al = new ArrayList(62);
         al.add(0, 0);
-        for (int i = 1; i < total + 1; i++) {
+        for (int i = 1; i < 61; i++) {
             String now = "00";
             if (i < 10) {
                 now = "0" + String.valueOf(i);
@@ -96,6 +96,7 @@ public class Tools {
             }
             al.add(i, prefix + now);
         }
+        al.add(61, 0);
         return al;
     }
 }
