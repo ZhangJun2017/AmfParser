@@ -18,7 +18,7 @@ public class Interface {
     }
 
     public void throwException(String str) {
-        
+
     }
 
 }

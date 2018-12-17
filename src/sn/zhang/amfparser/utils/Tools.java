@@ -2,6 +2,8 @@ package sn.zhang.amfparser.utils;
 
 import com.weedong.flex.messaging.io.ASObject;
 
+import java.util.ArrayList;
+
 public class Tools {
     sn.zhang.amfparser.utils.values values = new values();
 
@@ -80,5 +82,19 @@ public class Tools {
             values.fullScore = 0;
         }
         System.out.println("====== " + values.studentName + " (" + values.studentID + ")");
+    }
+
+    public ArrayList createListByClass(int total, String prefix) {
+        ArrayList al = new ArrayList();
+        for (int i = 1; i < total + 1; i++) {
+            String now = "00";
+            if (i < 10) {
+                now = "0" + String.valueOf(i);
+            } else {
+                now = String.valueOf(i);
+            }
+            al.add(i, prefix + now);
+        }
+        return al;
     }
 }
