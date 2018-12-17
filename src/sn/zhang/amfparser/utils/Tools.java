@@ -85,7 +85,8 @@ public class Tools {
     }
 
     public ArrayList createListByClass(int total, String prefix) {
-        ArrayList al = new ArrayList();
+        ArrayList al = new ArrayList(100);
+        al.add(0, 0);
         for (int i = 1; i < total + 1; i++) {
             String now = "00";
             if (i < 10) {
