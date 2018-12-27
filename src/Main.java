@@ -29,6 +29,9 @@ public class Main {
         while (true) {*/
         System.out.println("Id Enumer Running!");
         System.out.println("By ZhangJun");
+        System.out.println("Kernel Version:" + values.kernelVersion);
+        System.out.println("Shell Version:" + values.shellVersion);
+        System.out.println();
         String prefix = "218", subfix = "1", total, class_id;
         System.out.print("Enter Class:");
         class_id = scanner.nextLine();
