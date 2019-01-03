@@ -57,6 +57,9 @@ public class Main {
                 System.out.println(rootMap);
                 System.out.println("====================");*/
                 values.studentID = al.get(i).toString();
+                if (rootMap.size() == 0) {
+                    System.exit(0);
+                }
                 tools.query(rootMap, asObject, values);
                 /*
                 if (whileQuery == true) {
