@@ -7,4 +7,8 @@ public class values {
     public String command = "multiExamServiceNew.getAllStudentMultiExam";
     public String studentName = "Null";
     public double fullScore = 0;
+    public double wenZhong = 0;
+    public double liZhong = 0;
+    public double zhuKe = 0;
+
 }
