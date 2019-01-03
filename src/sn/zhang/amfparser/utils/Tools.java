@@ -48,7 +48,7 @@ public class Tools {
     }
 
     public void query(java.util.ArrayList rootMap, ASObject asObject, values values) {
-        System.out.println();
+        //System.out.println();
         java.util.ArrayList eachTypeRoot;
         int i = 0;
         //for (int i = rootMap.size() - 1; i > -1; i--) {

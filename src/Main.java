@@ -40,7 +40,7 @@ public class Main {
         //total = scanner.nextLine();
         ArrayList al = new ArrayList(60);
         al.addAll(tools.createListByClass(prefix));
-
+        System.out.println();
         for (int i = 1; i < al.size() + 1; i++) {
             AMFConnection amfConnection = new AMFConnection();
             try {
