@@ -1,31 +1,52 @@
 package utils;
 
-import com.weedong.flex.messaging.io.ASObject;
+
+import flex.messaging.io.ArrayCollection;
+import flex.messaging.io.amf.ASObject;
+
+import java.util.HashMap;
 
 public class Tools {
     utils.values values = new values();
+    HashMap examNameMap = new HashMap();
 
-    public String getNameById(int examId, int classId, ASObject asObject) {
-        /**
-         *  examId:考试的[]id
-         *  classId:[seId]
-         *  asObject:传入get好的amf
-         */
-        java.util.ArrayList rootMap = (java.util.ArrayList) asObject.get("source");
-        ASObject examMap = (ASObject) rootMap.get(examId);
-        ASObject eachTypeMap = (ASObject) examMap.get("singleExams");
-        java.util.ArrayList eachTypeRoot = (java.util.ArrayList) eachTypeMap.get("source");
+    public String getNameById(int examId, int classId, ArrayCollection asObject) {
+        @Deprecated
+        // Do not use anymore
+                /**
+                 *  examId:考试的[]id
+                 *  classId:[seId]
+                 *  asObject:传入get好的amf
+                 */
+                ASObject examMap = (ASObject) asObject.get(examId);
+        ArrayCollection eachTypeRoot = (ArrayCollection) examMap.get("singleExams");
+
         int subjectLength = eachTypeRoot.size();
         for (int i = 0; i < subjectLength; i++) {
             ASObject eachType = (ASObject) eachTypeRoot.get(i);
-            double d_seId = (double) eachType.get("seId");
-            int seId = (new Double(d_seId)).intValue();
+            int seId = Integer.valueOf(eachType.get("seId").toString());
+
             String name = (String) eachType.get("seCourseName");
             if (seId == classId) {
                 return name;
             }
         }
         return null;
+    }
+
+    public String getNameById(String id) {
+        return examNameMap.get(id).toString();
+    }
+
+    public void createNameMap(ArrayCollection asObject, int examId) {
+        ASObject examMap = (ASObject) asObject.get(examId);
+        ArrayCollection eachTypeRoot = (ArrayCollection) examMap.get("singleExams");
+
+        int subjectLength = eachTypeRoot.size();
+        for (int i = 0; i < subjectLength; i++) {
+            ASObject eachType = (ASObject) eachTypeRoot.get(i);
+            examNameMap.put(eachType.get("seId").toString(), eachType.get("seCourseName").toString());
+        }
     }
 
     public String fixNumber(String num) {
@@ -45,14 +66,15 @@ public class Tools {
         return tmp;
     }
 
-    public void query(java.util.ArrayList rootMap, ASObject asObject, values values) {
-        java.util.ArrayList eachTypeRoot;
+    public void query(ArrayCollection rootMap, values values) {
+
         for (int i = rootMap.size() - 1; i > -1; i--) {
+            // i means exam num
             ASObject examMap = (ASObject) rootMap.get(i);
+            createNameMap(rootMap, i);
             ASObject multiExamMap = (ASObject) examMap.get("multiExam");
             ASObject meStudentScore = (ASObject) examMap.get("meStudentScore");
-            ASObject scoreMap = (ASObject) examMap.get("seStudentScoreList");
-            eachTypeRoot = (java.util.ArrayList) scoreMap.get("source");
+            ArrayCollection eachTypeRoot = (ArrayCollection) examMap.get("seStudentScoreList");
             int subjectLength = eachTypeRoot.size();
             System.out.println(multiExamMap.get("meName"));
             System.out.println("共" + subjectLength + "科");
@@ -60,17 +82,20 @@ public class Tools {
             for (int o = 0; o < subjectLength; o++) {
                 Tools tools = new Tools();
                 ASObject eachType = (ASObject) eachTypeRoot.get(o);
-                double d_classId = (double) eachType.get("seId");
-                int classId = (new Double(d_classId)).intValue();
-                double classScore = Double.valueOf(tools.fixNumber(eachType.get("essScore")));
+                String classId = eachType.get("seId").toString();
+                double classScore = Double.valueOf(fixNumber(eachType.get("essScore")));
+
                 /**
-                 *double转int：
-                 *double d_name = (double) asObject.get("sth.");
+                 * !!! Don't Use Anymore !!!
+                 *
+                 * double转int：
+                 *  double d_name = (double) asObject.get("sth.");
                  *  int name = (new Double(d_name)).intValue();
                  */
-                values.studentName = (String) eachType.get("studentName");
-                String className = tools.getNameById(i, classId, asObject);
-                System.out.println("id:" + tools.fixNumber(eachType.get("seId")) + ",name:" + className + ",score:" + tools.fixNumber(eachType.get("essScore")) + ",班排:" + tools.fixNumber(eachType.get("essClassOrder")) + ",年排:" + tools.fixNumber(eachType.get("essGradeOrder")));
+
+                values.studentName = eachType.get("studentName").toString();
+                String className = getNameById(classId);//tools.getNameById(i, classId, rootMap);
+                System.out.println("id:" + fixNumber(classId) + ",name:" + className + ",score:" + fixNumber(eachType.get("essScore")) + ",班排:" + fixNumber(eachType.get("essClassOrder")) + ",年排:" + fixNumber(eachType.get("essGradeOrder")));
                 values.fullScore = classScore + values.fullScore;
                 switch (className) {
                     case "语文":

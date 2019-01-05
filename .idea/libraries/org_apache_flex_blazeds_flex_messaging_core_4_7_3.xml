@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="org.apache.flex.blazeds:flex-messaging-core:4.7.3" type="repository">
+    <properties maven-id="org.apache.flex.blazeds:flex-messaging-core:4.7.3" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/flex-messaging-core-4.7.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/flex-messaging-common-4.7.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/xalan-2.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/xml-apis-1.0.b2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/flex-messaging-core-4.7.3-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/flex-messaging-common-4.7.3-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/xml-apis-1.0.b2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

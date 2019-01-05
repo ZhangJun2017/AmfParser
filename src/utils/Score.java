@@ -1,6 +1,6 @@
 package utils;
 
-import com.weedong.flex.messaging.io.ASObject;
+import flex.messaging.io.amf.ASObject;
 
 import java.util.HashMap;
 
