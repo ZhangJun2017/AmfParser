@@ -7,7 +7,7 @@ public class values {
     public String shellVersion = "0.1.0";
     public String studentID = "21812140";
     public String url = "http://etreport.iclassmate.cn:8082/SchoolCenter/messagebroker/amf";
-    public String command = "multiExamServiceNew.getAllStudentMultiExam";
+    public String command = "multiExamService.getSchoolStudentScoresByGroupMeId";
     public String studentName = "Null";
     public double fullScore = 0;
     public ArrayList sheet = new ArrayList();
