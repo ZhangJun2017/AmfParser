@@ -1,11 +1,57 @@
 package sn.zhang.amfparser.utils;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.weedong.flex.messaging.io.ASObject;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+import java.io.IOException;
 
 public class Tools {
     sn.zhang.amfparser.utils.values values = new values();
 
-    public String getNameById(int examId, int classId, ASObject asObject) {
+    public static String httpGet(String url) throws IOException {
+        //HashMap<String, String> result = new HashMap();
+        //result.put("status", "wrong");
+        String result = "";
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder().url(url).build();
+        //TRY
+        Response response = okHttpClient.newCall(request).execute();
+        if (response.code() != 200) {
+            return String.valueOf(response.code());
+        } else {
+            return response.body().string();
+        }
+        //result.put("status", "ok");
+        //result.put("code", String.valueOf(response.code()));
+        //result.put("result", response.body().string());
+        //return result;
+        //TRY END
+            /*result.put("result", e.toString());
+            return result;*/
+
+    }
+
+    public static JsonObject parseJson(String json) throws InternalException {
+        JsonObject jsonElement = new JsonParser().parse(json).getAsJsonObject();
+        if (jsonElement.isJsonPrimitive() || jsonElement.isJsonNull()) {
+            throw new InternalException("JsonDataWrong-" + jsonElement.toString());
+        }
+        return jsonElement;
+    }
+
+    public static boolean isValidJson(String json) {
+        JsonObject jsonElement = new JsonParser().parse(json).getAsJsonObject();
+        if (jsonElement.isJsonPrimitive() || jsonElement.isJsonNull()) {
+            return false;
+        }
+        return true;
+    }
+
+    public static String getNameById(int examId, int classId, ASObject asObject) {
         /**
          *  examId:考试的[]id
          *  classId:[seId]
@@ -28,7 +74,7 @@ public class Tools {
         return null;
     }
 
-    public String fixNumber(String num) {
+    public static String fixNumber(String num) {
         if (num.indexOf(".") > 0) {
             num = num.replaceAll("0+?$", "");//去掉后面无用的零
             num = num.replaceAll("[.]$", "");//如小数点后面全是零则去掉小数点
@@ -36,7 +82,7 @@ public class Tools {
         return num;
     }
 
-    public String fixNumber(Object num) {
+    public static String fixNumber(Object num) {
         String tmp = num.toString();
         if (tmp.indexOf(".") > 0) {
             tmp = tmp.replaceAll("0+?$", "");//去掉后面无用的零

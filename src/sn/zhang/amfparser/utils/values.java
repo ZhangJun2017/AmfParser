@@ -1,10 +1,10 @@
 package sn.zhang.amfparser.utils;
 
 public class values {
-    public String version = "0.6.0-gzzx_build";
+    public static String version = "0.6.0";
     public String studentID = "21812140";
-    public String url = "http://etreport.iclassmate.cn:8082/SchoolCenter/messagebroker/amf";
-    public String command = "multiExamServiceNew.getAllStudentMultiExam";
+    public static String url = "http://etreport.iclassmate.cn:8082/SchoolCenter/messagebroker/amf";
+    public static String command = "multiExamServiceNew.getAllStudentMultiExam";
     public String studentName = "Null";
     public double fullScore = 0;
     public double wenZhong = 0;
