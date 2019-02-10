@@ -17,8 +17,11 @@ public class Config {
     public static void main(String[] args) {
         Config config = new Config();
         config.setInterface(new ConsoleInterface());
-        //config.setAnalysis(new Analysis());
+        config.put("studentId", "21812140");
+        config.setAnalysis(new Analysis());
         config.pullServerConfig();
+        config.getInterface().addText("======DEBUG INFO=====");
+        config.getInterface().addText(config.getConfigMap().toString());
     }
 
     public Config() {
@@ -67,7 +70,7 @@ public class Config {
         put("bannedAllMsg", "");
         put("specialBannedMsg", "");
         put("canQuery", "false");
-        put("reason", "Unauthorized access!");
+        put("reason", "400");
 
         JsonObject jsonDefault, jsonDevice;
         String jsonDevice_;
@@ -77,17 +80,17 @@ public class Config {
             //This is default config,if not 200,server must have some problem.
             //Getting default config
 
-            put("universeMessage", jsonDefault.get("message").getAsString());
-            put("needPwd", jsonDefault.get("need_pwd").getAsString());
-            put("bannedAll", jsonDefault.get("banned_all").getAsString());
-            put("openedAll", jsonDefault.get("opened_all").getAsString());
-            put("specialBanned", jsonDefault.get("special_banned").getAsString());
-            put("specialOpened", jsonDefault.get("special_opened").getAsString());
-            put("bannedAllMsg", jsonDefault.get("bannedAllMsg").getAsString());
-            put("specialBannedMsg", jsonDefault.get("specialBannedMsg").getAsString());
+            put("universeMessage", Tools.jsonGet(jsonDefault, "message"));
+            put("needPwd", Tools.jsonGet(jsonDefault, "need_pwd"));
+            put("bannedAll", Tools.jsonGet(jsonDefault, "banned_all"));
+            put("openedAll", Tools.jsonGet(jsonDefault, "opened_all"));
+            put("specialBanned", Tools.jsonGet(jsonDefault, "special_banned"));
+            put("specialOpened", Tools.jsonGet(jsonDefault, "special_opened"));
+            put("bannedAllMsg", Tools.jsonGet(jsonDefault, "bannedAllMsg"));
+            put("specialBannedMsg", Tools.jsonGet(jsonDefault, "specialBannedMsg"));
             //Converting json into Config
 
-            if (get("bannedAll").equals("openedAll")) {
+            if (get("bannedAll").equals(get("openedAll"))) {
                 throw new InternalException("401");
             }
             //Judging if server config wrong
@@ -96,11 +99,12 @@ public class Config {
                 //Can only query a little user
                 //If to-query user is not in the (global)whitelist,throw a exception and show "bannedAllMsg"
                 String whiteListMsg = "404";
-                whiteListMsg = Tools.httpGet("http://zhang-jun.work/exam/" + values.version + "/default/special_opened/" + get("studentId"));
+                whiteListMsg = mInterface.httpGet("http://zhang-jun.work/exam/" + values.version + "/default/special_opened/" + get("studentId"));
                 if (!whiteListMsg.equals("ensured")) {
                     //Not in whitelist or get config failed(404,403,503)
                     mInterface.throwException(get("bannedAllMsg"));
-                    throw new PermissionException("204");
+                    put("canQuery", "false");
+                    put("reason", "204");
                 } else {
                     //OK,next step is each-device config
                     put("canQuery", "true");
@@ -110,10 +114,11 @@ public class Config {
                 //Blacklist mode
                 //TODO:Show a "SpecialBannedMsg"
                 String blackListMsg = "404";
-                blackListMsg = Tools.httpGet("http://zhang-jun.work/exam/" + values.version + "/default/special_banned/" + get("studentId"));
+                blackListMsg = mInterface.httpGet("http://zhang-jun.work/exam/" + values.version + "/default/special_banned/" + get("studentId"));
                 if (blackListMsg.equals("ensured")) {
                     //Not in blacklist or get config failed(404,403,503)
-                    throw new PermissionException("203");
+                    put("canQuery", "false");
+                    put("reason", "203");
                 } else {
                     //OK,next step is each-device config
                     put("canQuery", "true");
@@ -126,36 +131,40 @@ public class Config {
             jsonDevice_ = mInterface.httpGet("http://zhang-jun.work/exam/" + values.version + "/id/" + mInterface.getDeviceId() + "/config.json");
             if (!Tools.isValidJson(jsonDevice_)) {
                 //Json invalid,use global config
-                return this;
+                if (get("canQuery").equals("true")) {
+                    return this;
+                }
+                throw new PermissionException(get("reason"));
             }
 //=====================================================================================================================
             //Json valid,so this device has its custom config
             jsonDevice = Tools.parseJson(jsonDevice_);
-            put("deviceMessage", jsonDevice.get("message").getAsString());
+            put("deviceMessage", Tools.jsonGet(jsonDevice, "message"));
             //Overwrite global setting
-            put("needPwd", jsonDefault.get("need_pwd").getAsString());
-            put("bannedAll", jsonDefault.get("banned_all").getAsString());
-            put("openedAll", jsonDefault.get("opened_all").getAsString());
-            put("specialBanned", jsonDefault.get("special_banned").getAsString());
-            put("specialOpened", jsonDefault.get("special_opened").getAsString());
-            put("bannedAllMsg", jsonDefault.get("bannedAllMsg").getAsString());
-            put("specialBannedMsg", jsonDefault.get("specialBannedMsg").getAsString());
+            put("needPwd", Tools.jsonGet(jsonDevice, "need_pwd"));
+            put("bannedAll", Tools.jsonGet(jsonDevice, "banned_all"));
+            put("openedAll", Tools.jsonGet(jsonDevice, "opened_all"));
+            put("specialBanned", Tools.jsonGet(jsonDevice, "special_banned"));
+            put("specialOpened", Tools.jsonGet(jsonDevice, "special_opened"));
+            put("bannedAllMsg", Tools.jsonGet(jsonDevice, "bannedAllMsg"));
+            put("specialBannedMsg", Tools.jsonGet(jsonDevice, "specialBannedMsg"));
             //Converting json into Config
 
-            if (get("bannedAll").equals("openedAll")) {
-                throw new InternalException("401");
+            if (get("bannedAll").equals(get("openedAll"))) {
+                throw new InternalException("402");
             }
             //Judging if server config wrong
 
             if (get("bannedAll").equals("true")) {
                 //Can only query a little user
-                //If to-query user is not in the (global)whitelist,throw a exception and show "bannedAllMsg"
+                //If to-query user is not in the (device)whitelist,throw a exception and show "bannedAllMsg"
                 String whiteListMsg = "404";
-                whiteListMsg = Tools.httpGet("http://zhang-jun.work/exam/" + values.version + "/id/" + mInterface.getDeviceId() + "/special_opened/" + get("studentId"));
+                whiteListMsg = mInterface.httpGet("http://zhang-jun.work/exam/" + values.version + "/id/" + mInterface.getDeviceId() + "/special_opened/" + get("studentId"));
                 if (!whiteListMsg.equals("ensured")) {
                     //Not in whitelist or get config failed(404,403,503)
                     mInterface.throwException(get("bannedAllMsg"));
-                    throw new PermissionException("202");
+                    put("canQuery", "false");
+                    put("reason", "202");
                 } else {
                     //OK,next step is each-device config
                     put("canQuery", "true");
@@ -165,24 +174,32 @@ public class Config {
                 //Blacklist mode
                 //TODO:Show a "SpecialBannedMsg"
                 String blackListMsg = "404";
-                blackListMsg = Tools.httpGet("http://zhang-jun.work/exam/" + values.version + "/id/" + mInterface.getDeviceId() + "/special_banned/" + get("studentId"));
+                blackListMsg = mInterface.httpGet("http://zhang-jun.work/exam/" + values.version + "/id/" + mInterface.getDeviceId() + "/special_banned/" + get("studentId"));
                 if (blackListMsg.equals("ensured")) {
                     //Not in blacklist or get config failed
-                    throw new PermissionException("201");
+                    put("canQuery", "false");
+                    put("reason", "201");
                 } else {
                     //OK,next step is each-device config
                     put("canQuery", "true");
                 }
             }
+
+            if (get("canQuery").equals("true")) {
+                return this;
+            }
+            throw new PermissionException(get("reason"));
 //======================================================================================================================
         } catch (InternalException | PermissionException e) {
             mInterface.throwException(e.toString());
+            put("canQuery", "false");
             analysis.put("status", "Failed");
             analysis.put("errcode", e.getMessage());
             put("reason", e.getMessage());
             return this;
         } catch (IOException e) {
             mInterface.throwException(e.toString());
+            put("canQuery", "false");
             analysis.put("status", "Failed");
             analysis.put("errcode", "101");
             put("reason", "101");

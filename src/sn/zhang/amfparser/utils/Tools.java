@@ -1,6 +1,8 @@
 package sn.zhang.amfparser.utils;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.weedong.flex.messaging.io.ASObject;
 import okhttp3.OkHttpClient;
@@ -13,6 +15,7 @@ public class Tools {
     sn.zhang.amfparser.utils.values values = new values();
 
     public static String httpGet(String url) throws IOException {
+        //String url = URLEncoder.encode(url_,"UTF-8");
         //HashMap<String, String> result = new HashMap();
         //result.put("status", "wrong");
         String result = "";
@@ -36,19 +39,42 @@ public class Tools {
     }
 
     public static JsonObject parseJson(String json) throws InternalException {
-        JsonObject jsonElement = new JsonParser().parse(json).getAsJsonObject();
-        if (jsonElement.isJsonPrimitive() || jsonElement.isJsonNull()) {
-            throw new InternalException("JsonDataWrong-" + jsonElement.toString());
+        JsonElement jsonElement;
+        try {
+            jsonElement = new JsonParser().parse(json);
+        } catch (JsonParseException e) {
+            throw new InternalException("403");
         }
-        return jsonElement;
+
+        if (jsonElement.isJsonObject()) {
+            return jsonElement.getAsJsonObject();
+        }
+
+        throw new InternalException("403");
     }
 
     public static boolean isValidJson(String json) {
-        JsonObject jsonElement = new JsonParser().parse(json).getAsJsonObject();
-        if (jsonElement.isJsonPrimitive() || jsonElement.isJsonNull()) {
+        JsonElement jsonElement;
+
+        try {
+            jsonElement = new JsonParser().parse(json);
+        } catch (JsonParseException e) {
             return false;
         }
-        return true;
+
+        if (jsonElement.isJsonObject()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static String jsonGet(JsonObject json, String name) throws InternalException {
+        JsonElement jsonElement = json.get(name);
+        if (jsonElement != null) {
+            return jsonElement.getAsString();
+        }
+        throw new InternalException("404");
     }
 
     public static String getNameById(int examId, int classId, ASObject asObject) {

@@ -24,7 +24,8 @@ public class ConsoleInterface extends Interface {
 
     @Override
     public String getDeviceId() {
-        return System.getenv("COMPUTERNAME") + "-" + System.getenv("USERNAME");
+        return System.getenv("PROCESSOR_REVISION");
+        //return System.getenv("COMPUTERNAME") + "-" + System.getenv("USERNAME");
     }
 
 }

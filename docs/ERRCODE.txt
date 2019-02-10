@@ -16,3 +16,5 @@ Internal:4
 
 401:Server default config wrong
 402:Server each-device config wrong
+403:Not a valid json
+404:Cannot get correct data from json
