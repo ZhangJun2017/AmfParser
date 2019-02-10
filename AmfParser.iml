@@ -10,6 +10,6 @@
     <orderEntry type="library" name="flex-messaging-core-4.7.3" level="project" />
     <orderEntry type="library" name="flex-messaging-common-4.7.3" level="project" />
     <orderEntry type="library" name="com.google.code.gson:gson:2.8.5" level="project" />
+    <orderEntry type="library" name="com.squareup.okhttp3:okhttp:3.13.1" level="project" />
   </component>
 </module>
-

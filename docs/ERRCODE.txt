@@ -1,0 +1,18 @@
+Network:1
+Permission:2
+Server:3
+Internal:4
+
+===========================
+101:Unknown network problem
+
+201:Id is not allowed to this device
+202:Id is out of opening-area in this device
+203:Id is not allowed to universe
+204:Id is out of opening-area in universe
+
+301:Password wrong
+302:Server responded something strange
+
+401:Server default config wrong
+402:Server each-device config wrong

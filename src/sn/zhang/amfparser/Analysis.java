@@ -6,7 +6,7 @@ public class Analysis {
 
     Interface mInterface = null;
     Config config = null;
-    HashMap analysisMap = new HashMap();
+    HashMap<String, String> analysisMap = new HashMap();
     boolean hasInited = false;
 
     public Analysis() {
@@ -19,6 +19,7 @@ public class Analysis {
     public void init(Config c) {
         this.analysisMap.put("studentId", c.get("studentId"));
         this.analysisMap.put("deviceId", c.get("deviceId"));
+        hasInited = true;
     }
 
     public void setInterface(Interface mInterface) {
@@ -26,7 +27,7 @@ public class Analysis {
     }
 
     public String get(String key) {
-        return this.analysisMap.get(key).toString();
+        return this.analysisMap.get(key);
     }
 
     public void put(String key, String obj) {
