@@ -5,6 +5,8 @@ public class values {
     public String studentID = "21812140";
     public static String url = "http://etreport.iclassmate.cn:8082/SchoolCenter/messagebroker/amf";
     public static String command = "multiExamServiceNew.getAllStudentMultiExam";
+    public static String configServerPrefix = "http://exam1.zhang-jun.work:2333/";//Ali
+    //public static String configServerPrefix = "http://exam.zhang-jun.work/";      SNC
     public String studentName = "Null";
     public double fullScore = 0;
     public double wenZhong = 0;

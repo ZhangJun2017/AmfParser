@@ -76,7 +76,7 @@ public class Config {
         String jsonDevice_;
 
         try {
-            jsonDefault = Tools.parseJson(mInterface.httpGet("http://zhang-jun.work/exam/" + values.version + "/default/config.json"));
+            jsonDefault = Tools.parseJson(mInterface.httpGet(values.version + "/default/config.json"));
             //This is default config,if not 200,server must have some problem.
             //Getting default config
 
@@ -99,7 +99,7 @@ public class Config {
                 //Can only query a little user
                 //If to-query user is not in the (global)whitelist,throw a exception and show "bannedAllMsg"
                 String whiteListMsg = "404";
-                whiteListMsg = mInterface.httpGet("http://zhang-jun.work/exam/" + values.version + "/default/special_opened/" + get("studentId"));
+                whiteListMsg = mInterface.httpGet(values.version + "/default/special_opened/" + get("studentId"));
                 if (!whiteListMsg.equals("ensured")) {
                     //Not in whitelist or get config failed(404,403,503)
                     mInterface.throwException(get("bannedAllMsg"));
@@ -114,7 +114,7 @@ public class Config {
                 //Blacklist mode
                 //TODO:Show a "SpecialBannedMsg"
                 String blackListMsg = "404";
-                blackListMsg = mInterface.httpGet("http://zhang-jun.work/exam/" + values.version + "/default/special_banned/" + get("studentId"));
+                blackListMsg = mInterface.httpGet(values.version + "/default/special_banned/" + get("studentId"));
                 if (blackListMsg.equals("ensured")) {
                     //Not in blacklist or get config failed(404,403,503)
                     put("canQuery", "false");
@@ -128,7 +128,7 @@ public class Config {
 
             /**Each-Device Part**/
 
-            jsonDevice_ = mInterface.httpGet("http://zhang-jun.work/exam/" + values.version + "/id/" + mInterface.getDeviceId() + "/config.json");
+            jsonDevice_ = mInterface.httpGet(values.version + "/id/" + mInterface.getDeviceId() + "/config.json");
             if (!Tools.isValidJson(jsonDevice_)) {
                 //Json invalid,use global config
                 if (get("canQuery").equals("true")) {
@@ -159,7 +159,7 @@ public class Config {
                 //Can only query a little user
                 //If to-query user is not in the (device)whitelist,throw a exception and show "bannedAllMsg"
                 String whiteListMsg = "404";
-                whiteListMsg = mInterface.httpGet("http://zhang-jun.work/exam/" + values.version + "/id/" + mInterface.getDeviceId() + "/special_opened/" + get("studentId"));
+                whiteListMsg = mInterface.httpGet(values.version + "/id/" + mInterface.getDeviceId() + "/special_opened/" + get("studentId"));
                 if (!whiteListMsg.equals("ensured")) {
                     //Not in whitelist or get config failed(404,403,503)
                     mInterface.throwException(get("bannedAllMsg"));
@@ -174,7 +174,7 @@ public class Config {
                 //Blacklist mode
                 //TODO:Show a "SpecialBannedMsg"
                 String blackListMsg = "404";
-                blackListMsg = mInterface.httpGet("http://zhang-jun.work/exam/" + values.version + "/id/" + mInterface.getDeviceId() + "/special_banned/" + get("studentId"));
+                blackListMsg = mInterface.httpGet(values.version + "/id/" + mInterface.getDeviceId() + "/special_banned/" + get("studentId"));
                 if (blackListMsg.equals("ensured")) {
                     //Not in blacklist or get config failed
                     put("canQuery", "false");

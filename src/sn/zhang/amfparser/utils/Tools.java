@@ -12,13 +12,9 @@ import okhttp3.Response;
 import java.io.IOException;
 
 public class Tools {
-    sn.zhang.amfparser.utils.values values = new values();
 
-    public static String httpGet(String url) throws IOException {
-        //String url = URLEncoder.encode(url_,"UTF-8");
-        //HashMap<String, String> result = new HashMap();
-        //result.put("status", "wrong");
-        String result = "";
+    public static String httpGet(String urls) throws IOException {
+        String url = values.configServerPrefix + urls;
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder().url(url).build();
         //TRY
@@ -28,14 +24,6 @@ public class Tools {
         } else {
             return response.body().string();
         }
-        //result.put("status", "ok");
-        //result.put("code", String.valueOf(response.code()));
-        //result.put("result", response.body().string());
-        //return result;
-        //TRY END
-            /*result.put("result", e.toString());
-            return result;*/
-
     }
 
     public static JsonObject parseJson(String json) throws InternalException {
