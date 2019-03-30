@@ -13,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) {
         Interface mInterface = new ConsoleInterface();
-        String url = "0.6.0/default/config.json1";
+        String url = "0.6.0/default/config.json";
         String result = "";
         try {
             result = mInterface.httpGet(url);

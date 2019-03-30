@@ -70,7 +70,8 @@ public class Config {
         put("bannedAllMsg", "");
         put("specialBannedMsg", "");
         put("canQuery", "false");
-        put("reason", "400");
+        put("errCode", "400");
+        put("errMsg", "UnknownInternalException");
 
         JsonObject jsonDefault, jsonDevice;
         String jsonDevice_;
@@ -104,7 +105,8 @@ public class Config {
                     //Not in whitelist or get config failed(404,403,503)
                     mInterface.throwException(get("bannedAllMsg"));
                     put("canQuery", "false");
-                    put("reason", "204");
+                    put("errCode", "204");
+                    put("errMsg", get("bannedAllMsg"));
                 } else {
                     //OK,next step is each-device config
                     put("canQuery", "true");
@@ -118,7 +120,8 @@ public class Config {
                 if (blackListMsg.equals("ensured")) {
                     //Not in blacklist or get config failed(404,403,503)
                     put("canQuery", "false");
-                    put("reason", "203");
+                    put("errCode", "203");
+                    put("errMsg", )
                 } else {
                     //OK,next step is each-device config
                     put("canQuery", "true");
