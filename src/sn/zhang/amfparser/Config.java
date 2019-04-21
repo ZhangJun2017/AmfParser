@@ -19,8 +19,12 @@ public class Config {
         config.setInterface(new ConsoleInterface());
         config.put("studentId", "21812140");
         config.setAnalysis(new Analysis());
+        System.out.println("=====DEBUG START=====");
+        System.out.println("Start pull server config");
         config.pullServerConfig();
-        config.getInterface().addText("======DEBUG INFO=====");
+        System.out.println("pull finish");
+        config.getAnalysis().
+                config.getInterface().addText("======DEBUG INFO=====");
         config.getInterface().addText(config.getConfigMap().toString());
     }
 
@@ -121,7 +125,7 @@ public class Config {
                     //Not in blacklist or get config failed(404,403,503)
                     put("canQuery", "false");
                     put("errCode", "203");
-                    put("errMsg", )
+                    put("errMsg", "203");
                 } else {
                     //OK,next step is each-device config
                     put("canQuery", "true");
