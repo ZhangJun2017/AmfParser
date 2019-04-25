@@ -12,5 +12,9 @@ public class Analysis_new {
             //Invalid "Config"
             return -1;
         }
+        //TODO:Send Analysis
+        //TODO:Read Config and send analysis by "canQuery" and "errCode".
+        return 0;
+
     }
 }

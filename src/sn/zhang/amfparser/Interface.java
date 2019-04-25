@@ -1,5 +1,8 @@
 package sn.zhang.amfparser;
 
+import com.weedong.flex.client.ClientStatusException;
+import com.weedong.flex.client.ServerStatusException;
+
 import java.io.IOException;
 
 public class Interface {
@@ -16,6 +19,10 @@ public class Interface {
     }
 
     public String httpGet(String url) throws IOException {
+        return null;
+    }
+
+    public Object amfGet(String urls, String command, String... args) throws ClientStatusException, ServerStatusException {
         return null;
     }
 

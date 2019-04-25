@@ -1,8 +1,7 @@
 package sn.zhang.amfparser;
 
 import com.google.gson.JsonObject;
-import sn.zhang.amfparser.utils.InternalException;
-import sn.zhang.amfparser.utils.PermissionException;
+import sn.zhang.amfparser.utils.ConfigPullingException;
 import sn.zhang.amfparser.utils.Tools;
 import sn.zhang.amfparser.utils.values;
 
@@ -63,6 +62,12 @@ public class Config {
     }
 
     public Config pullServerConfig() {
+        /**
+         * Hey,I know you are looking at me,I'm here to remind you how to throw out an exception.
+         *   First,set "canQuery" to false;
+         *   Second,set "errCode" and "errMsg" to details.
+         *   Finally,throw new ConfigPullingException(extraMsg);
+         */
         //Global vars init
         put("universeMessage", "");
         put("deviceMessage", "");
@@ -96,18 +101,19 @@ public class Config {
             //Converting json into Config
 
             if (get("bannedAll").equals(get("openedAll"))) {
-                throw new InternalException("401");
+                put("errCode", "401");
+                put("errMsg", "Server config seems wrong.");
+                throw new ConfigPullingException();
+                //Server config seems wrong,stop all process and exit.
             }
             //Judging if server config wrong
 
             if (get("bannedAll").equals("true")) {
                 //Can only query a little user
                 //If to-query user is not in the (global)whitelist,throw a exception and show "bannedAllMsg"
-                String whiteListMsg = "404";
-                whiteListMsg = mInterface.httpGet(values.version + "/default/special_opened/" + get("studentId"));
+                String whiteListMsg = mInterface.httpGet(values.version + "/default/special_opened/" + get("studentId"));
                 if (!whiteListMsg.equals("ensured")) {
-                    //Not in whitelist or get config failed(404,403,503)
-                    mInterface.throwException(get("bannedAllMsg"));
+                    //Not in whitelist or get config failed
                     put("canQuery", "false");
                     put("errCode", "204");
                     put("errMsg", get("bannedAllMsg"));
@@ -118,14 +124,13 @@ public class Config {
             } else {
                 //Can NOT query some user
                 //Blacklist mode
-                //TODO:Show a "SpecialBannedMsg"
-                String blackListMsg = "404";
-                blackListMsg = mInterface.httpGet(values.version + "/default/special_banned/" + get("studentId"));
+                String blackListMsg = mInterface.httpGet(values.version + "/default/special_banned/" + get("studentId"));
                 if (blackListMsg.equals("ensured")) {
-                    //Not in blacklist or get config failed(404,403,503)
+                    //Not in blacklist or get config failed
                     put("canQuery", "false");
                     put("errCode", "203");
-                    put("errMsg", "203");
+                    //TODO:Show a "SpecialBannedMsg"
+                    put("errMsg", "Permission Denied");
                 } else {
                     //OK,next step is each-device config
                     put("canQuery", "true");
@@ -141,7 +146,7 @@ public class Config {
                 if (get("canQuery").equals("true")) {
                     return this;
                 }
-                throw new PermissionException(get("reason"));
+                throw new ConfigPullingException();
             }
 //=====================================================================================================================
             //Json valid,so this device has its custom config
@@ -158,36 +163,37 @@ public class Config {
             //Converting json into Config
 
             if (get("bannedAll").equals(get("openedAll"))) {
-                throw new InternalException("402");
+                put("errCode", "402");
+                put("errMsg", "Each-device config seems wrong.");
+                throw new ConfigPullingException();
+                //Each-device config seems wrong,but it does not matter,use global config.
             }
             //Judging if server config wrong
 
             if (get("bannedAll").equals("true")) {
                 //Can only query a little user
                 //If to-query user is not in the (device)whitelist,throw a exception and show "bannedAllMsg"
-                String whiteListMsg = "404";
-                whiteListMsg = mInterface.httpGet(values.version + "/id/" + mInterface.getDeviceId() + "/special_opened/" + get("studentId"));
+                String whiteListMsg = mInterface.httpGet(values.version + "/id/" + mInterface.getDeviceId() + "/special_opened/" + get("studentId"));
                 if (!whiteListMsg.equals("ensured")) {
-                    //Not in whitelist or get config failed(404,403,503)
-                    mInterface.throwException(get("bannedAllMsg"));
+                    //Not in whitelist or get config failed
                     put("canQuery", "false");
-                    put("reason", "202");
+                    put("errCode", "202");
+                    put("errMsg", get("bannedAllMsg"));
                 } else {
-                    //OK,next step is each-device config
+                    //Wow,whitelisted user,who it could be?
                     put("canQuery", "true");
                 }
             } else {
                 //Can NOT query some user
                 //Blacklist mode
-                //TODO:Show a "SpecialBannedMsg"
-                String blackListMsg = "404";
-                blackListMsg = mInterface.httpGet(values.version + "/id/" + mInterface.getDeviceId() + "/special_banned/" + get("studentId"));
+                String blackListMsg = mInterface.httpGet(values.version + "/id/" + mInterface.getDeviceId() + "/special_banned/" + get("studentId"));
                 if (blackListMsg.equals("ensured")) {
                     //Not in blacklist or get config failed
                     put("canQuery", "false");
-                    put("reason", "201");
+                    put("errCode", "201");
+                    //TODO:Show a "SpecialBannedMsg"
+                    put("errMsg", "Permission Denied");
                 } else {
-                    //OK,next step is each-device config
                     put("canQuery", "true");
                 }
             }
@@ -195,25 +201,34 @@ public class Config {
             if (get("canQuery").equals("true")) {
                 return this;
             }
-            throw new PermissionException(get("reason"));
+            throw new ConfigPullingException();
 //======================================================================================================================
-        } catch (InternalException | PermissionException e) {
-            mInterface.throwException(e.toString());
-            put("canQuery", "false");
-            analysis.put("status", "Failed");
-            analysis.put("errcode", e.getMessage());
-            put("reason", e.getMessage());
+        } catch (ConfigPullingException e) {
+            if (e.flag == 0) {
+                mInterface.throwException(get("errCode") + " - " + get("errMsg"));
+                put("canQuery", "false");
+                //TODO:Send analysis
+            } else if (e.flag == 1) {
+                put("errCode", e.errCode);
+                put("errMsg", e.errMsg);
+                mInterface.throwException(get("errCode") + " - " + get("errMsg"));
+                //TODO:Send analysis
+            } else {
+                //WTF Exception in exception?
+                //Then go die
+                System.exit(-999);
+            }
             return this;
         } catch (IOException e) {
-            mInterface.throwException(e.toString());
             put("canQuery", "false");
-            analysis.put("status", "Failed");
-            analysis.put("errcode", "101");
-            put("reason", "101");
+            put("errCode", "101");
+            put("errMsg", "Network seems unreachable.");
+            mInterface.throwException(get("errCode") + " - " + get("errMsg"));
+            //TODO:Send analysis
             return this;
         } finally {
             return this;
         }
     }
-
+    //So it finally finished logical operation.
 }

@@ -1,5 +1,7 @@
 package sn.zhang.amfparser;
 
+import com.weedong.flex.client.ClientStatusException;
+import com.weedong.flex.client.ServerStatusException;
 import sn.zhang.amfparser.utils.Tools;
 
 import java.io.IOException;
@@ -8,6 +10,11 @@ public class ConsoleInterface extends Interface {
     @Override
     public String httpGet(String url) throws IOException {
         return Tools.httpGet(url);
+    }
+
+    @Override
+    public Object amfGet(String urls, String command, String... args) throws ClientStatusException, ServerStatusException {
+        return Tools.amfGet(urls, command, args);
     }
 
     @Override

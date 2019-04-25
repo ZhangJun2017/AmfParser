@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="AmfParser:android">
+    <output-path>$PROJECT_DIR$/out/artifacts/AmfParser_android</output-path>
+    <root id="archive" name="AmfParser.jar">
+      <element id="module-output" name="AmfParser" />
+    </root>
+  </artifact>
+</component>
