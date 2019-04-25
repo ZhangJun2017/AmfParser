@@ -30,7 +30,7 @@ public class Tools {
 
     public static Object amfGet(String urls, String command, String... args) throws ClientStatusException, ServerStatusException {
         AMFConnection amfConnection = new AMFConnection();
-        amfConnection.connect(values.url);
+        amfConnection.connect(urls);
         return amfConnection.call(command, args);
     }
 
