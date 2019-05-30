@@ -3,7 +3,7 @@ package utils;
 import java.util.HashMap;
 
 public class Subject {
-    HashMap subjects = new HashMap();
+    HashMap<Integer, String> subjects = new HashMap<Integer, String>();
 
     public Subject() {
         subjects.put(0, "语文");
@@ -28,7 +28,7 @@ public class Subject {
      */
     public int getIdByName(String name) {
         for (int i = 0; i < 10; i++) {
-            if (name == subjects.get(i)) {
+            if (name.equals(subjects.get(i))) {
                 return i;
             } else {
                 System.out.println(subjects.get(i) + " is not " + name);
