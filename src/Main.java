@@ -12,10 +12,10 @@ public class Main {
     public static void main(String[] args) {
         if (System.getProperty("os.name") == null) {
             System.out.println("Please use branch \"AIDE_SP_BUILD\" instead!");
-            System.exit(-1);
+            return;
         } else if (!System.getProperty("os.name").contains("Windows")) {
             System.out.println("Please use branch \"AIDE_SP_BUILD\" instead!");
-            System.exit(-1);
+            return;
         }
         values values = new values();
         Tools tools = new Tools();
