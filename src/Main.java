@@ -10,6 +10,13 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        if (System.getProperty("os.name") == null) {
+            System.out.println("Please use branch \"AIDE_SP_BUILD\" instead!");
+            System.exit(-1);
+        } else if (!System.getProperty("os.name").contains("Windows")) {
+            System.out.println("Please use branch \"AIDE_SP_BUILD\" instead!");
+            System.exit(-1);
+        }
         values values = new values();
         Tools tools = new Tools();
         Scanner scanner = new Scanner(System.in);
@@ -41,7 +48,7 @@ public class Main {
                 System.out.println(rootMap);
                 System.out.println("====================");*/
                 tools.query(rootMap, asObject, values);
-                if (whileQuery == true) {
+                if (whileQuery) {
                     System.out.println();
                     System.out.print("Waiting for input... > ");
                     values.studentID = scanner.next();
@@ -49,9 +56,7 @@ public class Main {
                 } else {
                     System.exit(0);
                 }
-            } catch (ClientStatusException e) {
-                e.printStackTrace();
-            } catch (ServerStatusException e) {
+            } catch (ClientStatusException | ServerStatusException e) {
                 e.printStackTrace();
             } finally {
                 amfConnection.close();
