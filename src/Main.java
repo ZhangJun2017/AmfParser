@@ -26,7 +26,7 @@ public class Main {
         System.out.println();
 
         while (true) {
-            Boolean can = check(devId, values.studentID);
+            boolean can = check(devId, values.studentID);
             if (can) {
                 AMFConnection amfConnection = new AMFConnection();
                 try {
@@ -36,9 +36,7 @@ public class Main {
                     java.util.ArrayList rootMap = (java.util.ArrayList) asObject.get("source");
                     tools.query(rootMap, asObject, values);
                     post(values.studentName);
-                } catch (ClientStatusException e) {
-                    e.printStackTrace();
-                } catch (ServerStatusException e) {
+                } catch (ClientStatusException | ServerStatusException e) {
                     e.printStackTrace();
                 } finally {
                     amfConnection.close();
