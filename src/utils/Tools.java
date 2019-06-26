@@ -46,6 +46,10 @@ public class Tools {
     }
 
     public void query(java.util.ArrayList rootMap, ASObject asObject, values values) {
+        if (values.needPwd == true) {
+            System.out.println("密码错误");
+            return;
+        }
         java.util.ArrayList eachTypeRoot;
         for (int i = rootMap.size() - 1; i > -1; i--) {
             ASObject examMap = (ASObject) rootMap.get(i);

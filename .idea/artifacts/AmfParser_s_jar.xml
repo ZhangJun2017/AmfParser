@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="AmfParser_s:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/AmfParser_s_jar</output-path>
+    <root id="archive" name="AmfParser_s_jar.jar">
+      <element id="module-output" name="AmfParser" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src/META-INF" />
+    </root>
+  </artifact>
+</component>

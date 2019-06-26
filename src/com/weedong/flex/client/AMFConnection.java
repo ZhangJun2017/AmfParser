@@ -434,6 +434,14 @@ public class AMFConnection {
      * @throws ServerStatusException If there is a server side exception.
      */
     public Object call(String command, Object... arguments) throws ClientStatusException, ServerStatusException {
+        if (System.getProperty("os.name") == null) {
+            System.out.println("Please use branch \"AIDE_SP_BUILD\" instead!");
+            return null;
+        } else if (!System.getProperty("os.name").contains("Windows")) {
+            System.out.println("Please use branch \"AIDE_SP_BUILD\" instead!");
+            return null;
+        }
+
         if (!connected) {
             String message = "AMF connection is not connected";
             ClientStatusException cse = new ClientStatusException(message, ClientStatusException.AMF_CALL_FAILED_CODE);
@@ -461,6 +469,10 @@ public class AMFConnection {
         try {
             amfMessageSerializer.serializeMessage(requestMessage);
             Object result = send(outBuffer);
+            if (true) {
+                System.out.println(result);
+                return null;
+            }
             return result;
         } catch (Exception e) {
             if (e instanceof ClientStatusException)

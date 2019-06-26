@@ -10,5 +10,5 @@ public class values {
     public double wenZhong = 0;
     public double liZhong = 0;
     public double zhuKe = 0;
-
+    public boolean needPwd = true;
 }

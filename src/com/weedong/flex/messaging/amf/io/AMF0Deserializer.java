@@ -383,13 +383,13 @@ public class AMF0Deserializer {
                 case 5:
                 case 6:
                 case 7:
-            /* 0xxxxxxx*/
+                    /* 0xxxxxxx*/
                     count++;
                     str.append((char) c);
                     break;
                 case 12:
                 case 13:
-            /* 110x xxxx   10xx xxxx*/
+                    /* 110x xxxx   10xx xxxx*/
                     count += 2;
                     if (count > utflen)
                         throw new UTFDataFormatException();
@@ -399,7 +399,7 @@ public class AMF0Deserializer {
                     str.append((char) (((c & 0x1F) << 6) | (char2 & 0x3F)));
                     break;
                 case 14:
-            /* 1110 xxxx  10xx xxxx  10xx xxxx */
+                    /* 1110 xxxx  10xx xxxx  10xx xxxx */
                     count += 3;
                     if (count > utflen)
                         throw new UTFDataFormatException();
@@ -412,7 +412,7 @@ public class AMF0Deserializer {
                             ((char3 & 0x3F) << 0)));
                     break;
                 default:
-            /* 10xx xxxx,  1111 xxxx */
+                    /* 10xx xxxx,  1111 xxxx */
                     throw new UTFDataFormatException();
             }
         }
@@ -439,12 +439,13 @@ public class AMF0Deserializer {
     private static final String data1 = "00 03 00 00 00 01 00 04 6E 75 6C 6C 00 02 2F 33 00 00 00 92 0A 00 00 00 01 11 0A 81 13 4F 66 6C 65 78 2E 6D 65 73 73 61 67 69 6E 67 2E 6D 65 73 73 61 67 65 73 2E 52 65 6D 6F 74 69 6E 67 4D 65 73 73 61 67 65 0D 73 6F 75 72 63 65 13 6F 70 65 72 61 74 69 6F 6E 09 62 6F 64 79 17 64 65 73 74 69 6E 61 74 69 6F 6E 11 63 6C 69 65 6E 74 49 64 15 74 69 6D 65 54 6F 4C 69 76 65 13 6D 65 73 73 61 67 65 49 64 0F 68 65 61 64 65 72 73 13 74 69 6D 65 73 74 61 6D 70 01 06 0D 75 70 64 61 74 65 09 03 01 0A 73 39 66 6C 65 78 2E 74 65 73 74 64 72 69 76 65 2E 73 74 6F 72 65 2E 50 72 6F 64 75 63 74 09 6E 61 6D 65 0B 70 72 69 63 65 0B 69 6D 61 67 65 11 63 61 74 65 67 6F 72 79 07 75 69 64 13 70 72 6F 64 75 63 74 49 64 17 64 65 73 63 72 69 70 74 69 6F 6E 06 0D 70 72 6F 64 20 33 05 40 12 3D 70 A3 D7 0A 3D 06 13 70 72 6F 64 33 2E 70 6E 67 06 17 70 72 6F 64 75 63 74 20 63 61 74 06 49 33 41 44 38 35 46 34 37 2D 31 35 33 36 2D 42 38 34 46 2D 36 36 34 42 2D 30 31 41 30 37 45 30 32 38 34 39 31 04 03 06 25 70 72 6F 64 20 64 65 73 63 72 69 70 74 69 6F 6E 20 33 06 0F 70 72 6F 64 75 63 74 01 04 00 06 49 37 32 31 32 39 46 38 37 2D 45 41 45 46 2D 35 46 37 35 2D 41 37 37 30 2D 30 31 41 30 41 35 45 43 42 37 34 32 0A 0B 01 15 44 53 45 6E 64 70 6F 69 6E 74 06 0D 6D 79 2D 61 6D 66 01 04 00";
     //private static final String data1   = "00 03 00 00 00 01 00 0B 2F 32 2F 6F 6E 52 65 73 75 6C 74 00 00 FF FF FF FF 11 0A 81 03 55 66 6C 65 78 2E 6D 65 73 73 61 67 69 6E 67 2E 6D 65 73 73 61 67 65 73 2E 41 63 6B 6E 6F 77 6C 65 64 67 65 4D 65 73 73 61 67 65 09 62 6F 64 79 11 63 6C 69 65 6E 74 49 64 1B 63 6F 72 72 65 6C 61 74 69 6F 6E 49 64 17 64 65 73 74 69 6E 61 74 69 6F 6E 0F 68 65 61 64 65 72 73 13 6D 65 73 73 61 67 65 49 64 15 74 69 6D 65 54 6F 4C 69 76 65 13 74 69 6D 65 73 74 61 6D 70 0A 07 43 66 6C 65 78 2E 6D 65 73 73 61 67 69 6E 67 2E 69 6F 2E 41 72 72 61 79 43 6F 6C 6C 65 63 74 69 6F 6E 09 03 01 0A 63 39 66 6C 65 78 2E 74 65 73 74 64 72 69 76 65 2E 73 74 6F 72 65 2E 50 72 6F 64 75 63 74 11 63 61 74 65 67 6F 72 79 17 64 65 73 63 72 69 70 74 69 6F 6E 0B 69 6D 61 67 65 09 6E 61 6D 65 0B 70 72 69 63 65 13 70 72 6F 64 75 63 74 49 64 06 17 70 72 6F 64 75 63 74 20 63 61 74 06 25 70 72 6F 64 20 64 65 73 63 72 69 70 74 69 6F 6E 20 31 06 13 70 72 6F 64 31 2E 70 6E 67 06 0D 70 72 6F 64 20 31 05 40 16 3D 70 A3 D7 0A 3D 04 01 06 49 34 61 64 65 63 36 65 31 2D 35 37 66 61 2D 34 32 61 38 2D 38 35 36 38 2D 65 65 39 62 37 64 65 38 35 32 65 35 06 49 38 46 36 36 39 31 32 39 2D 39 44 46 35 2D 44 34 31 31 2D 31 36 34 31 2D 30 31 33 35 37 39 37 41 37 37 39 43 01 01 06 49 38 36 61 38 66 32 31 36 2D 35 34 34 34 2D 34 34 36 30 2D 39 33 37 37 2D 39 64 37 62 37 62 65 34 65 64 32 61 04 00 08 01 42 70 F0 13 81 5B 20 00";
 
+    /*
     public static void main(String[] args) throws Exception {
         DataInputStream dis = new DataInputStream(new ByteArrayInputStream(toByteArray(data1)));
 
         AMF0Deserializer des = new AMF0Deserializer(dis);
         System.out.println(des.getAMFMessage().toString());
-    }
+    }*/
 
     private static byte[] toByteArray(String hex) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
