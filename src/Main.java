@@ -51,7 +51,7 @@ public class Main {
     }
 
     public static boolean check(String devId, String stuId) {
-        System.out.println("Please wait while cheching availability...");
+        System.out.println("Please wait while checking availability...");
         try {
             URL url = new URL("http://exam.zhang-jun.work:2333/aide/check.php?devId=" + devId + "&stuId=" + stuId);
             InputStream in = url.openStream();
