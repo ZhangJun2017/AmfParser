@@ -30,7 +30,7 @@ public class Main {
             if (can) {
                 AMFConnection amfConnection = new AMFConnection();
                 try {
-                    amfConnection.connect(values.url);
+                    amfConnection.connect(getUrl());
                     Object result = amfConnection.call(values.command, 19868, values.studentID, "Why not check my token???");
                     ASObject asObject = (ASObject) result;
                     java.util.ArrayList rootMap = (java.util.ArrayList) asObject.get("source");
@@ -70,6 +70,23 @@ public class Main {
         } catch (Exception e) {
             System.out.println("Check your network connection first!");
             return false;
+        }
+    }
+
+    public static String getUrl() {
+        try {
+            URL url = new URL("http://exam.zhang-jun.work:2333/aide/geturl.php");
+            InputStream in = url.openStream();
+            InputStreamReader isr = new InputStreamReader(in);
+            BufferedReader bufr = new BufferedReader(isr);
+            String str = bufr.readLine();
+            bufr.close();
+            isr.close();
+            in.close();
+            return str;
+        } catch (Exception e) {
+            System.out.println("Check your network connection first!");
+            return null;
         }
     }
 
